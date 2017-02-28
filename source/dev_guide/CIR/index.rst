@@ -11,8 +11,9 @@ Subpackages
 -----------
 
 .. toctree::
-
+   :maxdepth: 2
    
+   auth
 
 Submodules
 ----------
