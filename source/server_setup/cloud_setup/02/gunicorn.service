@@ -1,0 +1,16 @@
+[Unit]
+Description=Gunicorn daemon for Django Project
+Before=nginx.service
+After=network.target
+
+[Service]
+WorkingDirectory=/home/prisms/Projects/
+ExecStart=/home/prisms/Envs/prisms_env/bin/gunicorn  --name=PRISMS --pythonpath=PRISMS --bind unix:/var/log/PRISMS/.prisms.sock --config /etc/gunicorn.d/gunicorn.py --log-file /var/log/PRISMS/gunicorn.log --access-logfile /var/log/PRISMS/gunicorn-access.log --settings PRISMS.settings PRISMS.wsgi:application
+Restart=always
+SyslogIdentifier=gunicorn
+User=prisms
+Group=www-data
+
+
+[Install]
+WantedBy=multi-user.target

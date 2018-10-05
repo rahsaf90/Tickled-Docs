@@ -24,8 +24,15 @@ SETUP NGINX // THIS IS USED FOR STATIC FILES js/img/html
 
 SETUP POSTGRES
 --------------
+
+sudo -u postgres psql
+
+OR (
+
 su - postgres
-postgres@zer0g-uat-sgp1-01:~$ psql
+postgres@zer0g-uat-sgp1-01:~$ psql )
+
+
 psql (9.3.10)
 Type "help" for help.
 
@@ -53,3 +60,6 @@ ident_file = '/etc/postgresql/9.3/main/pg_ident.conf' # ident configuration file
 ALTER ROLE prisms SET client_encoding TO 'utf8';
 ALTER ROLE prisms SET default_transaction_isolation TO 'read committed';
 ALTER ROLE prisms SET timezone TO 'UTC';
+
+
+sudo service postgresql restart

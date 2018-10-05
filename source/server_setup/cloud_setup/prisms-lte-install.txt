@@ -1,0 +1,59 @@
+
+Digitial Ocean: zer0g-uat-sgp1-02 159.65.5.248 prisms-lte.zer0g.com
+-------------------------------------------------
+
+0. setup variables in bash , sudo pip install virtualenvwrapper
+1. mkvirtualenv prisms_env
+2. workon prisms_env
+3. pip install -r requirements.txt // copy from project on git
+4. mkdir -p Projects
+5. cd Projects
+6. git clone https://github.com/rahsaf90/PRISMS.git
+
+
+https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04
+
+https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04
+
+sudo certbot --nginx -d prisms-lte.zer0g.com -d www.prisms-lte.zer0g.com
+
+https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-16-04
+
+on one  click image . gunicorn and nginx are installed by default.
+
+stop the default service.
+
+sudo systemctl stop gunicorn
+
+update gunicorn.service file and ( see 02 folder)
+
+sudo systemctl daemon-reload
+
+sudo systemctl start|restart gunicorn
+
+
+Setup DB.
+
+1. sudo -u postgres psql
+2. postgres=# SELECT usename FROM pg_user;
+3. postgres=# CREATE DATABASE prisms_prod;
+4.  CREATE USER prisms WITH PASSWORD 'prisms_1may$2018';
+# note username is same as unix username. this allows us to use passwordless peer authentication scheme for application.
+5. ALTER ROLE prisms SET client_encoding TO 'utf8';
+6. ALTER ROLE prisms SET default_transaction_isolation TO 'read committed';
+7. ALTER ROLE prisms SET timezone TO 'UTC';
+8. GRANT ALL PRIVILEGES ON DATABASE prisms_prod TO prisms;
+
+setup peer auth
+
+/etc/postgresql/9.5/main/pg_hba.conf - most likely its already set like this.
+
+
+(prisms_env) prisms@zer0g-uat-sgp-02:/var/log/PRISMS$ sudo cat  /etc/postgresql/9.5/main/pg_hba.conf | grep -v ^#
+
+local   all             postgres                                peer
+
+
+local   all             all                                     peer
+host    all             all             127.0.0.1/32            md5
+host    all             all             ::1/128                 md5
